@@ -1,0 +1,19 @@
+URL du site  : http://qcmlinda.linaida.com
+
+Compte professeur :
+login : prof
+password : prof
+
+Compte etudiant :
+login : etudiant
+password : etudiant
+
+login : Yuli
+password : Yuli
+
+login : Candace
+password : Candace
+
+Export de la base de donnée dans le fichier qcm.sql qui est a la racine de l'archive.
+
+
