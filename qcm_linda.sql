@@ -9,24 +9,6 @@ SET time_zone = "+00:00";
 CREATE DATABASE IF NOT EXISTS `db322671_qcm` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `db322671_qcm`;
 
-CREATE TABLE IF NOT EXISTS `etudiant` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `personne_id` int(11) NOT NULL,
-  `qcm_id` int(11) unsigned NOT NULL,
-  `resultat` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `etudiant_id` (`personne_id`,`qcm_id`),
-  KEY `qcm_id` (`qcm_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
-
-INSERT INTO `etudiant` VALUES
-(3, 1, 17, 2),
-(4, 1, 12, 0),
-(5, 2, 22, 2),
-(6, 2, 23, 3),
-(7, 2, 24, 1),
-(8, 17, 12, 1),
-(10, 1, 23, 4);
 
 CREATE TABLE IF NOT EXISTS `personne` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -59,6 +41,21 @@ INSERT INTO `personne` VALUES
 (19, 'prof', 'prof', 'ante.bibendum@at.net', 'professeur'),
 (20, 'Whilemina', 'QJW05NVI0LE', 'risus@semvitaealiquam.net', 'etudiant');
 
+CREATE TABLE IF NOT EXISTS `theme` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nom` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+
+INSERT INTO `theme` VALUES
+(1, 'informatique'),
+(2, 'communication'),
+(7, 'test'),
+(8, 'test'),
+(9, 'mon_theme'),
+(10, 'mon_theme');
+
+
 CREATE TABLE IF NOT EXISTS `qcm` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `titre` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
@@ -75,6 +72,36 @@ INSERT INTO `qcm` VALUES
 (22, 'Mon autre qcm', 19, '2015-11-30', 1),
 (23, 'Qcm2', 19, '2015-11-30', 1),
 (24, 'Divers', 19, '2015-11-30', 1);
+
+
+CREATE TABLE IF NOT EXISTS `question_reponse` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `personne_id` int(11) DEFAULT NULL,
+  `theme_id` int(11) DEFAULT NULL,
+  `question` text CHARACTER SET latin1 COLLATE latin1_general_ci,
+  `reponse1` text CHARACTER SET latin1 COLLATE latin1_general_ci,
+  `reponse2` text CHARACTER SET latin1 COLLATE latin1_general_ci,
+  `reponse3` text CHARACTER SET latin1 COLLATE latin1_general_ci,
+  `reponse4` text CHARACTER SET latin1 COLLATE latin1_general_ci,
+  `solution` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `auteur_id` (`personne_id`),
+  KEY `theme_id` (`theme_id`),
+  KEY `auteur_id_2` (`personne_id`),
+  KEY `theme_id_2` (`theme_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
+
+INSERT INTO `question_reponse` VALUES
+(1, 19, 1, 'Quelle est l''OS le plus utilisé ?', 'Windows', 'Mandriva', 'Mac OS', 'Ubuntu', 'Windows'),
+(2, 19, 1, 'Laquelle de ces réponses n''est pas un langage de programmation ?', 'HTML', 'PHP', 'JAVA', 'C++', 'HTML'),
+(3, 18, 1, 'Trouvez l''intrus ', 'PhpStorm', 'Sublime Text', 'NotePad', 'Atom', '0'),
+(4, 14, 2, 'Qu''est ce qu''un web-doc ?', 'Une nouvelle technologie', 'Un nouveau type de média', 'Un genre musical', 'Je ne sais pas', '0'),
+(5, 14, 1, 'Quel est le langage que vous maîtrisez le mieux ?', 'JAVA', 'PHP', 'C++', 'Ruby', '0'),
+(12, 18, 1, 'Quelle est votre OS ?', 'Linux', 'Windobe', 'Mac', 'Ubuntu', '0'),
+(15, 19, 2, 'A quel événement allez vous assister cette année ? ', 'Agile tour', 'Salon de l''auto', 'TGS', 'Aucun', 'Agile tour'),
+(19, 19, 1, 'Que permet l''héritage ?', 'Rien', 'De spécialiser ou généraliser', 'de valider des fonctions', 'Je ne sais pas', 'De spécialiser ou généraliser'),
+(26, 19, 1, 'Quelle est la méthode agile la plus populaire ?', 'Scrum', 'Kaban', 'LESS', 'SpeedBoat', 'Scrum'),
+(27, 19, 9, 'Quelle est la couleur du cheval blanc d''Henri IV ?', 'Noir', 'Rouge', 'Violet', 'Blanc', 'Blanc');
 
 CREATE TABLE IF NOT EXISTS `qcms_question_reponses` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -108,48 +135,25 @@ INSERT INTO `qcms_question_reponses` VALUES
 (43, 24, 26),
 (44, 24, 27);
 
-CREATE TABLE IF NOT EXISTS `question_reponse` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `personne_id` int(11) DEFAULT NULL,
-  `theme_id` int(11) DEFAULT NULL,
-  `question` text CHARACTER SET latin1 COLLATE latin1_general_ci,
-  `reponse1` text CHARACTER SET latin1 COLLATE latin1_general_ci,
-  `reponse2` text CHARACTER SET latin1 COLLATE latin1_general_ci,
-  `reponse3` text CHARACTER SET latin1 COLLATE latin1_general_ci,
-  `reponse4` text CHARACTER SET latin1 COLLATE latin1_general_ci,
-  `solution` text NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `auteur_id` (`personne_id`),
-  KEY `theme_id` (`theme_id`),
-  KEY `auteur_id_2` (`personne_id`),
-  KEY `theme_id_2` (`theme_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
 
-INSERT INTO `question_reponse` VALUES
-(1, 19, 1, 'Quelle est l''OS le plus utilisé ?', 'Windows', 'Mandriva', 'Mac OS', 'Ubuntu', 'Windows'),
-(2, 19, 1, 'Laquelle de ces réponses n''est pas un langage de programmation ?', 'HTML', 'PHP', 'JAVA', 'C++', 'HTML'),
-(3, 18, 1, 'Trouvez l''intrus ', 'PhpStorm', 'Sublime Text', 'NotePad', 'Atom', '0'),
-(4, 14, 2, 'Qu''est ce qu''un web-doc ?', 'Une nouvelle technologie', 'Un nouveau type de média', 'Un genre musical', 'Je ne sais pas', '0'),
-(5, 14, 1, 'Quel est le langage que vous maîtrisez le mieux ?', 'JAVA', 'PHP', 'C++', 'Ruby', '0'),
-(12, 18, 1, 'Quelle est votre OS ?', 'Linux', 'Windobe', 'Mac', 'Ubuntu', '0'),
-(15, 19, 2, 'A quel événement allez vous assister cette année ? ', 'Agile tour', 'Salon de l''auto', 'TGS', 'Aucun', 'Agile tour'),
-(19, 19, 1, 'Que permet l''héritage ?', 'Rien', 'De spécialiser ou généraliser', 'de valider des fonctions', 'Je ne sais pas', 'De spécialiser ou généraliser'),
-(26, 19, 1, 'Quelle est la méthode agile la plus populaire ?', 'Scrum', 'Kaban', 'LESS', 'SpeedBoat', 'Scrum'),
-(27, 19, 9, 'Quelle est la couleur du cheval blanc d''Henri IV ?', 'Noir', 'Rouge', 'Violet', 'Blanc', 'Blanc');
-
-CREATE TABLE IF NOT EXISTS `theme` (
+CREATE TABLE IF NOT EXISTS `etudiant` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nom` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
-  PRIMARY KEY (`id`)
+  `personne_id` int(11) NOT NULL,
+  `qcm_id` int(11) unsigned NOT NULL,
+  `resultat` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `etudiant_id` (`personne_id`,`qcm_id`),
+  KEY `qcm_id` (`qcm_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
-INSERT INTO `theme` VALUES
-(1, 'informatique'),
-(2, 'communication'),
-(7, 'test'),
-(8, 'test'),
-(9, 'mon_theme'),
-(10, 'mon_theme');
+INSERT INTO `etudiant` VALUES
+(3, 1, 17, 2),
+(4, 1, 12, 0),
+(5, 2, 22, 2),
+(6, 2, 23, 3),
+(7, 2, 24, 1),
+(8, 17, 12, 1),
+(10, 1, 23, 4);
 
 
 ALTER TABLE `etudiant`
